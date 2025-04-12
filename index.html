@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cecilie Hang Gade - Portfolio</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Navigation */
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        justify-content: flex-end;
+        padding: 1rem 0;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        min-height: 80vh;
+        background-color: #f5f5f5;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 4rem 0;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .hero-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: #000;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .hero-image {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .brand-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 8em;
+        font-weight: bold;
+        color: #1f1919;
+        opacity: 0.2;
+        line-height: 0.8;
+      }
+
+      /* Projects Section */
+      .featured-products {
+        padding: 4rem 0;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .product-item {
+        position: relative;
+      }
+
+      .product-item img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      .product-item h3 {
+        margin-top: 1rem;
+        font-size: 1.25rem;
+      }
+
+      /* Sliding Banner */
+      .sliding-banner {
+        padding: 2rem 0;
+        background: #f5f5f5;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .sliding-banner span {
+        display: inline-block;
+        animation: slide 20s linear infinite;
+      }
+
+      @keyframes slide {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      /* About Section */
+      .about-section {
+        padding: 4rem 0;
+        display: flex;
+        align-items: center;
+        gap: 8rem; /* Increased gap between image and content */
+        background-color: #6c6868; /* Light gray background */
+        min-height: 80vh; /* Full viewport height for dramatic effect */
+      }
+
+      .about-image {
+        flex: 1;
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 0; /* Remove border radius */
+        object-fit: cover; /* Ensure image covers area properly */
+      }
+
+      .about-content {
+        flex: 1;
+        padding-right: 4rem; /* Add some padding on the right */
+      }
+
+      .about-content h2 {
+        font-size: 3rem; /* Larger heading */
+        font-weight: bold;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .about-content p {
+        font-size: 1.2rem; /* Larger paragraph text */
+        line-height: 1.6;
+        color: #333; /* Darker text color */
+        max-width: 600px; /* Limit text width for better readability */
+      }
+
+      /* Add the university text styling */
+      .university-text {
+        color: #6366f1; /* Purple/blue color for the university text */
+        margin-top: 2rem;
+        font-size: 0.9rem;
+      }
+
+      /* Make it responsive */
+      @media (max-width: 768px) {
+        .about-section {
+          flex-direction: column;
+          gap: 3rem;
+          padding: 2rem;
+        }
+
+        .about-content {
+          padding-right: 0;
+        }
+
+        .about-content h2 {
+          font-size: 2.5rem;
+        }
+      }
+      /* Skills Section */
+      .skills-section {
+        padding: 4rem 0;
+        background: #f5f5f5;
+        text-align: center;
+      }
+
+      .skills-section h2 {
+        margin: 2rem 0;
+      }
+
+      /* Timeline Section */
+      .timeline-section {
+        position: relative;
+        padding: 4rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .timeline-content {
+        position: relative;
+      }
+
+      .timeline-line {
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #4444ff;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        padding-left: 3rem;
+        position: relative;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 1.05rem;
+        width: 1rem;
+        height: 1rem;
+        background-color: #4444ff;
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+
+        border-radius: 0; /* Remove border radius */
+        object-fit: cover; /* Ensure image covers area properly */
+      }
+
+      .date {
+        font-weight: bold;
+        color: #4444ff;
+        margin-bottom: 0.5rem;
+      }
+
+      .title {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+      }
+
+      .role {
+        color: #666;
+      }
+
+      /* Quote Section */
+      .quote-section {
+        padding: 4rem 0;
+        text-align: center;
+        background: #f5f5f5;
+      }
+
+      .quote-section blockquote {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 1.5rem;
+        font-style: italic;
+      }
+
+      /* Contact Section */
+      .contact-section {
+        padding: 15rem 0;
+        text-align: center;
+        background-color: #6366f1;
+      }
+
+      .contact-section h2 {
+        color: #222222;
+        margin-bottom: 2rem;
+      }
+
+      /* Footer */
+      footer {
+        padding: 4rem 0;
+        background: #f5f5f5;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-grid h3,
+      .footer-grid h4 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-grid ul {
+        list-style: none;
+      }
+
+      .footer-grid a {
+        text-decoration: none;
+        color: #333;
+      }
+
+      @media (max-width: 768px) {
+        .hero-image {
+          position: relative;
+          width: 100%;
+          height: 300px;
+        }
+
+        .about-section {
+          flex-direction: column;
+        }
+
+        .hero-content {
+          padding: 2rem 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="container">
+      <!-- <h1>Cecilie Hang Gade</h1>-->
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>
+            Welcome to my portfolio! Explore my creative work and discover
+            projects showcasing my skills and interest.
+          </h1>
+          <a href="#projects" class="hero-button">LEARN MORE</a>
+        </div>
+      </div>
+      <img src="images/Cecilie.jpg" alt="Hero Image" class="hero-image" />
+      <div class="brand-overlay">Cecilie Hang Gade</div>
+    </section>
+
+    <!-- Sliding Banner -->
+    <div class="sliding-banner">
+      <span
+        >UX / UI Designer &nbsp;&nbsp;&nbsp; UX / UI Designer &nbsp;&nbsp;&nbsp;
+        UX / UI Designer &nbsp;&nbsp;&nbsp;</span
+      >
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="featured-products">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="product-grid">
+          <div class="product-item">
+            <img
+              src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+              alt="Nationalbanken"
+            />
+            <h3>Nationalbanken</h3>
+            <p>User research on the employees' travel habits at work.</p>
+          </div>
+          <div class="product-item">
+            <img
+              src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+              alt="Aula"
+            />
+            <h3>Aula</h3>
+            <p>Redesign of Aula</p>
+          </div>
+          <div class="product-item">
+            <img
+              src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+              alt="Gamification"
+            />
+            <h3>Gamification</h3>
+            <p>
+              Illustrating and programming spinning wheel for marketing. Filming
+              and editing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="about-image">
+        <img
+          src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+          alt="Profile"
+        />
+      </div>
+      <div class="about-content">
+        <h2>Hi This is my work</h2>
+        <p>
+          I am a creative thinker with a digital mindset and a keen interest in
+          understanding users and behavior in the digital landscape. I approach
+          tasks with a problem-solving, structured, and detail-oriented mindset,
+          always aiming to deliver strong results
+        </p>
+        <div class="university-text">
+          IT University of Copenhagen<br />MSc Digital Design & Interactive
+          Technology (cand.IT)
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+      <div class="container">
+        <h2>DIGITAL DESIGN</h2>
+        <h2>MARKETING</h2>
+        <h2>VISUAL IDENTITY</h2>
+        <h2>UX DESIGN</h2>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <div class="section timeline-section container">
+      <div class="timeline-content">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2023-</div>
+            <div class="title">Dansk Erhverv</div>
+            <div class="role">Student Assistant</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2023</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">SoMe & E-commerce</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2021</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">Intern</div>
+          </div>
+        </div>
+      </div>
+
+      <img
+        src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+        alt="Woman working on laptop"
+        class="timeline-image"
+      />
+    </div>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+      <div class="container">
+        <blockquote>
+          "I am a creative thinker with a digital mindset and a keen interest in
+          understanding users and behavior in the digital landscape. I approach
+          tasks with a problem-solving, structured, and detail-oriented mindset,
+          always aiming to deliver strong results"
+        </blockquote>
+      </div>
+    </section>
+
+    <div class="section timeline-section reverse container">
+      <img
+        src="/Users/ceciliegade/Desktop/Skærmbillede 2024-11-03 kl. 22.33.17.png"
+        alt="Woman working on laptop"
+        class="timeline-image"
+      />
+
+      <div class="timeline-content">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2023-</div>
+            <div class="title">Dansk Erhverv</div>
+            <div class="role">Student Assistant</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2023</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">SoMe & E-commerce</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2021</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">Intern</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2>LET'S CONNECT</h2>
+        <p>CONTACT</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Cecilie Hang Gade Portfolio</h3>
+            <p>
+              This website contains projects from work and university.
+              Disclaimer: this website was coded with help from AI
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Follow me</h4>
+            <ul>
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
