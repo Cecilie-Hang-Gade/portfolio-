@@ -82,7 +82,7 @@
         )
         .force("charge", d3.forceManyBody().strength(-15));
 
-      d3.csv("sidde_cleaned.csv", types, function (error, graph) {
+      d3.csv("data2.csv", types, function (error, graph) {
         if (error) {
           console.error("Error loading data:", error);
           return;
