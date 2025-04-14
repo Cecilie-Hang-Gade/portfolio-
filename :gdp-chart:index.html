@@ -25,7 +25,7 @@
     <h2
       style="text-align: center; font-family: sans-serif; margin-bottom: 10px"
     >
-      GDP Distribution by Region
+      Sitting Duration by Person and Furniture Type
     </h2>
 
     <div id="my_dataviz"></div>
@@ -33,7 +33,7 @@
     <script>
       var width = window.innerWidth,
         height = window.innerHeight,
-        sizeDivisor = 100,
+        sizeDivisor = 5, // Adjusted for sitting data which has smaller values
         nodePadding = 2.5;
 
       var svg = d3
@@ -44,14 +44,14 @@
 
       // Define color scale
       var color = d3.scaleOrdinal([
-        "#2a2ae0", // mørk blå
-        "#4444FF", // original blå
-        "#6a6aff", // lysere blå
-        "#a5a5ff", // pastelblå
-        "#cc7c1e", // mørk orange
-        "#F99D40", // original orange
-        "#fab56d", // lysere orange
-        "#ffe1c2", // meget lys orange / pastel
+        "#2a2ae0", // dark blue
+        "#4444FF", // blue
+        "#6a6aff", // lighter blue
+        "#a5a5ff", // pastel blue
+        "#cc7c1e", // dark orange
+        "#F99D40", // orange
+        "#fab56d", // lighter orange
+        "#ffe1c2", // pastel orange
       ]);
 
       // Add tooltip div
@@ -82,8 +82,11 @@
         )
         .force("charge", d3.forceManyBody().strength(-15));
 
-      d3.csv("data2.csv", types, function (error, graph) {
-        if (error) throw error;
+      d3.csv("sidde_cleaned.csv", types, function (error, graph) {
+        if (error) {
+          console.error("Error loading data:", error);
+          return;
+        }
 
         // sort the nodes so that the bigger ones are at the back
         graph = graph.sort(function (a, b) {
@@ -124,7 +127,7 @@
             return d.radius;
           })
           .attr("fill", function (d) {
-            return color(d.continent);
+            return color(d.person);
           })
           .attr("cx", function (d) {
             return d.x;
@@ -137,11 +140,11 @@
             tooltip
               .html(
                 "<strong>" +
-                  d.country +
-                  "</strong><br/>GDP: $" +
-                  d.gdp +
-                  " billion<br/>Continent: " +
-                  d.continent
+                  d.person +
+                  "</strong><br/>Duration: " +
+                  d.duration +
+                  " minutes<br/>Furniture: " +
+                  d.furniture
               )
               .style("left", d3.event.pageX + 10 + "px")
               .style("top", d3.event.pageY - 28 + "px");
@@ -157,13 +160,13 @@
               .on("end", dragended)
           );
 
-        // Add a legend
-        var continents = [...new Set(graph.map((d) => d.continent))];
+        // Add a legend for people
+        var people = [...new Set(graph.map((d) => d.person))];
         var legendSpace = 20; // Space between legend items
 
         var legend = svg
           .selectAll(".legend")
-          .data(continents)
+          .data(people)
           .enter()
           .append("g")
           .attr("class", "legend")
@@ -206,9 +209,15 @@
       }
 
       function types(d) {
-        d.gdp = +d.gdp;
-        d.size = +d.gdp / sizeDivisor;
+        // Map the new column names to more convenient property names
+        d.person = d["Hvem er du"];
+        d.duration = +d["Hvor længe sad du ned (minutter)"]; // Convert to number
+        d.furniture = d["Hvad sad du på"];
+
+        // Calculate bubble size based on duration
+        d.size = d.duration / sizeDivisor;
         d.size < 3 ? (d.radius = 3) : (d.radius = d.size);
+
         return d;
       }
     </script>
