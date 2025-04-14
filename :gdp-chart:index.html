@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html lang="da">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Verdens befolkning</title>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
-      .tooltip {
+      .node circle {
+        stroke: #3a403d;
+        stroke-width: 0.5px;
+      }
+      #tooltip {
         position: absolute;
-        text-align: center;
         background-color: white;
-        border: solid 1px #ccc;
+        border: solid 1px #999;
         border-radius: 5px;
-        padding: 5px;
+        padding: 10px;
+        pointer-events: none;
+        opacity: 0;
+        font-family: sans-serif;
+      }
+      .legend {
         font-family: sans-serif;
         font-size: 12px;
-        pointer-events: none;
-      }
-
-      .node {
-        cursor: grab;
       }
     </style>
   </head>
@@ -26,14 +25,16 @@
     <h2
       style="text-align: center; font-family: sans-serif; margin-bottom: 10px"
     >
-      Verdens befolkning fordelt på regioner
+      GDP Distribution by Region
     </h2>
 
     <div id="my_dataviz"></div>
-
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
-      var width = 460;
-      var height = 460;
+      var width = window.innerWidth,
+        height = window.innerHeight,
+        sizeDivisor = 100,
+        nodePadding = 2.5;
 
       var svg = d3
         .select("#my_dataviz")
@@ -41,64 +42,113 @@
         .attr("width", width)
         .attr("height", height);
 
-      // Tooltip
-      var Tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
+      // Define color scale
+      var color = d3.scaleOrdinal([
+        "#2a2ae0", // mørk blå
+        "#4444FF", // original blå
+        "#6a6aff", // lysere blå
+        "#a5a5ff", // pastelblå
+        "#cc7c1e", // mørk orange
+        "#F99D40", // original orange
+        "#fab56d", // lysere orange
+        "#ffe1c2", // meget lys orange / pastel
+      ]);
 
-      var mouseover = function (event, d) {
-        Tooltip.style("opacity", 1);
-      };
+      // Add tooltip div
+      var tooltip = d3.select("body").append("div").attr("id", "tooltip");
 
-      var mousemove = function (event, d) {
-        Tooltip.html(
-          "<strong>" +
-            d.country +
-            "</strong><br/>" +
-            d.value +
-            " indbyggere<br/>" +
-            "Region: " +
-            d.region
+      var simulation = d3
+        .forceSimulation()
+        .force(
+          "forceX",
+          d3
+            .forceX()
+            .strength(0.1)
+            .x(width * 0.5)
         )
-          .style("left", event.pageX + 15 + "px")
-          .style("top", event.pageY - 28 + "px");
-      };
+        .force(
+          "forceY",
+          d3
+            .forceY()
+            .strength(0.1)
+            .y(height * 0.5)
+        )
+        .force(
+          "center",
+          d3
+            .forceCenter()
+            .x(width * 0.5)
+            .y(height * 0.5)
+        )
+        .force("charge", d3.forceManyBody().strength(-15));
 
-      var mouseleave = function (event, d) {
-        Tooltip.style("opacity", 0);
-      };
+      d3.csv("data.csv", types, function (error, graph) {
+        if (error) throw error;
 
-      d3.csv(
-        "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/11_SevCatOneNumNestedOneObsPerGroup.csv"
-      ).then(function (data) {
-        data = data.filter((d) => +d.value > 10000000);
+        // sort the nodes so that the bigger ones are at the back
+        graph = graph.sort(function (a, b) {
+          return b.size - a.size;
+        });
 
-        var color = d3
-          .scaleOrdinal()
-          .domain(["Asia", "Europe", "Africa", "Oceania", "Americas"])
-          .range(d3.schemeSet1);
-
-        var size = d3.scaleLinear().domain([0, 1400000000]).range([7, 55]);
+        //update the simulation based on the data
+        simulation
+          .nodes(graph)
+          .force(
+            "collide",
+            d3
+              .forceCollide()
+              .strength(0.5)
+              .radius(function (d) {
+                return d.radius + nodePadding;
+              })
+              .iterations(1)
+          )
+          .on("tick", function (d) {
+            node
+              .attr("cx", function (d) {
+                return d.x;
+              })
+              .attr("cy", function (d) {
+                return d.y;
+              });
+          });
 
         var node = svg
           .append("g")
+          .attr("class", "node")
           .selectAll("circle")
-          .data(data)
+          .data(graph)
           .enter()
           .append("circle")
-          .attr("class", "node")
-          .attr("r", (d) => size(d.value))
-          .attr("cx", width / 2)
-          .attr("cy", height / 2)
-          .style("fill", (d) => color(d.region))
-          .style("fill-opacity", 0.8)
-          .attr("stroke", "black")
-          .style("stroke-width", 1)
-          .on("mouseover", mouseover)
-          .on("mousemove", mousemove)
-          .on("mouseleave", mouseleave)
+          .attr("r", function (d) {
+            return d.radius;
+          })
+          .attr("fill", function (d) {
+            return color(d.continent);
+          })
+          .attr("cx", function (d) {
+            return d.x;
+          })
+          .attr("cy", function (d) {
+            return d.y;
+          })
+          .on("mouseover", function (d) {
+            tooltip.transition().duration(200).style("opacity", 0.9);
+            tooltip
+              .html(
+                "<strong>" +
+                  d.country +
+                  "</strong><br/>GDP: $" +
+                  d.gdp +
+                  " billion<br/>Continent: " +
+                  d.continent
+              )
+              .style("left", d3.event.pageX + 10 + "px")
+              .style("top", d3.event.pageY - 28 + "px");
+          })
+          .on("mouseout", function (d) {
+            tooltip.transition().duration(500).style("opacity", 0);
+          })
           .call(
             d3
               .drag()
@@ -107,40 +157,60 @@
               .on("end", dragended)
           );
 
-        var simulation = d3
-          .forceSimulation()
-          .force("center", d3.forceCenter(width / 2, height / 2))
-          .force("charge", d3.forceManyBody().strength(0.1))
-          .force(
-            "collide",
-            d3
-              .forceCollide()
-              .strength(0.2)
-              .radius((d) => size(d.value) + 3)
-              .iterations(1)
-          );
+        // Add a legend
+        var continents = [...new Set(graph.map((d) => d.continent))];
+        var legendSpace = 20; // Space between legend items
 
-        simulation.nodes(data).on("tick", () => {
-          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-        });
+        var legend = svg
+          .selectAll(".legend")
+          .data(continents)
+          .enter()
+          .append("g")
+          .attr("class", "legend")
+          .attr("transform", function (d, i) {
+            return "translate(20," + (i * legendSpace + 20) + ")";
+          });
 
-        function dragstarted(event, d) {
-          if (!event.active) simulation.alphaTarget(0.03).restart();
-          d.fx = d.x;
-          d.fy = d.y;
-        }
+        legend
+          .append("rect")
+          .attr("width", 15)
+          .attr("height", 15)
+          .style("fill", function (d) {
+            return color(d);
+          });
 
-        function dragged(event, d) {
-          d.fx = event.x;
-          d.fy = event.y;
-        }
-
-        function dragended(event, d) {
-          if (!event.active) simulation.alphaTarget(0.03);
-          d.fx = null;
-          d.fy = null;
-        }
+        legend
+          .append("text")
+          .attr("x", 20)
+          .attr("y", 12)
+          .text(function (d) {
+            return d;
+          });
       });
+
+      function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.03).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+      }
+
+      function dragended(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.03);
+        d.fx = null;
+        d.fy = null;
+      }
+
+      function types(d) {
+        d.gdp = +d.gdp;
+        d.size = +d.gdp / sizeDivisor;
+        d.size < 3 ? (d.radius = 3) : (d.radius = d.size);
+        return d;
+      }
     </script>
   </body>
 </html>
