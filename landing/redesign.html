@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cecilie Hang Gade - Thesis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Navigation */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+
+      .navbar h1 {
+        color: #333;
+      }
+
+      .site-title {
+        font-size: 1.2rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        color: #333;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        justify-content: flex-end;
+        padding: 0rem 0;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+      }
+
+      #hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 1.5rem 0;
+        color: white;
+      }
+
+      .hero-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+        font-family: monospace;
+      }
+
+      .brand-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 3em;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.06);
+        line-height: 0.8;
+        z-index: 2;
+      }
+
+      /* Section Styles */
+      .section-title {
+        text-align: center;
+        margin: 3rem 0 1.5rem;
+        font-size: 1.8rem;
+        color: #4444ff;
+        font-family: monospace;
+      }
+
+      .section-description {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+      }
+
+      /* Video Section */
+      .video-section {
+        padding: 3rem 0;
+        background-color: #f8f9fa;
+      }
+
+      .video-container {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        max-width: 800px;
+      }
+
+      .video-container video {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Logos and Illustrations Section */
+      .logos-section {
+        padding: 3rem 0;
+      }
+
+      .logos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+
+      .logo-item {
+        text-align: center;
+      }
+
+      .logo-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .logo-item:hover img {
+        transform: scale(1.05);
+      }
+
+      .logo-item h4 {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+      }
+
+      /* Banners Section */
+      .banners-section {
+        padding: 3rem 0;
+        background-color: #f0f4ff;
+      }
+
+      .banners-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+
+      @media (max-width: 768px) {
+        .banners-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .banner-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .banner-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+
+      .banner-item:hover img {
+        transform: scale(1.03);
+      }
+
+      .banner-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 1rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .banner-item:hover .banner-overlay {
+        transform: translateY(0);
+      }
+
+      /* Process Section */
+      .process-section {
+        padding: 3rem 0;
+      }
+
+      .process-steps {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 1000px;
+        flex-wrap: wrap;
+      }
+
+      .process-step {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+        padding: 1.5rem;
+        margin: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .step-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: #4444ff;
+        color: white;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        font-weight: bold;
+      }
+
+      /* Contact Section */
+      .contact-section {
+        padding: 5rem 0;
+        text-align: center;
+        background-color: #6366f1;
+      }
+
+      .contact-section h2 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+      }
+
+      .contact-button {
+        display: inline-block;
+        background-color: #ffffff;
+        color: #6366f1;
+        padding: 12px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 2rem;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .contact-button:hover {
+        background-color: #4444ff;
+        color: #ffffff;
+      }
+
+      /* Footer */
+      footer {
+        padding: 4rem 0;
+        background: #f5f5f5;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10rem;
+      }
+
+      .footer-grid h3,
+      .footer-grid h4 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-grid ul {
+        list-style: none;
+      }
+
+      .footer-grid a {
+        text-decoration: none;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="container navbar">
+      <h1 class="site-title">CECILIE HANG GADE</h1>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#about">About</a>
+        <a href="your-cv-file.pdf" target="_blank">CV</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div id="hero-canvas"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1>
+            Sustainability and IT: How can technology help shift travel behavior
+            from flights to rail?
+          </h1>
+          <p>
+            Thesis researching how rail planner platforms like DSB Udland
+            support behavioral change through UX, beyond just persuasive
+            technology.
+          </p>
+        </div>
+      </div>
+      <div class="brand-overlay">Thesis from ITU</div>
+    </section>
+
+    <!-- Video Section
+    <section class="video-section">
+      <h2 class="section-title">Promotional Video</h2>
+      <p class="section-description">
+        An engaging promotional video created to showcase the E-handelsprisen
+        event and its significance in the e-commerce industry.
+      </p>
+
+      <div class="video-container">
+        <video controls autoplay muted>
+          <source src="video/blå.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>  -->
+
+    <!-- Design Process Section -->
+    <section class="process-section">
+      <h2 class="section-title">Design Process</h2>
+      <p class="section-description"></p>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>Research</h4>
+          <p>
+            Analyzing the travel industry and rail booking platforms to set
+            context and goals
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>User Involvement</h4>
+          <p>
+            Engaged users through interviews and a workshop to understand user
+            needs, pain points, travel motivations, and attitudes toward
+            sustainability.
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>Design concept</h4>
+          <p>
+            (Current stage) Refining the concept by testing it through
+            low-fidelity wireframes and Figma prototypes.
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>High fidelity prototype</h4>
+          <p>
+            Refining the prototype in Figma to streamline the booking flow and
+            enhance overall usability.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- sketches Section -->
+
+    <section class="banners-section">
+      <h2 class="section-title">Wireframe & User flow</h2>
+      <p class="section-description">
+        A preliminary interface sketch and user flow were developed to visualize
+        the user journey. These were used in UX testing to evaluate how well the
+        design met user needs and expectations.
+      </p>
+
+      <div class="banner-item">
+        <img src="images/sketch2.jpg" alt="B2B Category Banner" />
+        <div class="banner-overlay">
+          <h4>Wireframe / User Flow</h4>
+          <p>A sketch of the interface and user flow, used to test the UX.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- sketches Section 
+    <section class="banners-section">
+      <h2 class="section-title">Workshop</h2>
+      <p class="section-description">
+        Co-designing the best UX for young people (18–35) through user
+        collaboration.
+      </p>
+
+      <div class="banners-grid">
+        <div class="banner-item">
+          <img src="images/sketch3.jpg" alt="B2B Category Banner" />
+          <div class="banner-overlay">
+            <h4>B2B Category Banner</h4>
+            <p>Digital banner for B2B e-commerce award category</p>
+          </div>
+        </div>
+        <div class="banner-item">
+          <img
+            src="images/sketch1.jpg"
+            alt="Best New E-commerce Business Banner"
+          />
+          <div class="banner-overlay">
+            <h4>Best New E-commerce Banner</h4>
+            <p>Promotional banner for the newcomer award category</p>
+          </div>
+        </div>
+        <div class="banner-item">
+          <img src="images/workshop1.jpeg" alt="Theme Banner" />
+          <div class="banner-overlay">
+            <h4>Theme Banner</h4>
+            <p>Banner highlighting this year's main theme</p>
+          </div>
+        </div>
+        <div class="banner-item">
+          <img src="images/workshop4.jpeg" alt="General Event Banner" />
+          <div class="banner-overlay">
+            <h4>Event Banner</h4>
+            <p>Main promotional banner for the E-handelsprisen event</p>
+          </div>
+        </div>
+      </div>
+    </section>-->
+
+    <!-- workshop Section -->
+    <section class="logos-section">
+      <h2 class="section-title">Workshop</h2>
+      <p class="section-description">
+        Co-designing the best UX for young people (18–35) through user
+        collaboration.
+      </p>
+
+      <div class="logos-grid">
+        <div class="logo-item">
+          <img src="images/workshop4.jpeg" alt="E-handelsprisen main logo" />
+          <h4>The best User Journey</h4>
+        </div>
+        <div class="logo-item">
+          <img src="images/workshop3.jpeg" alt="Award category illustration" />
+          <h4>Building functions</h4>
+        </div>
+        <div class="logo-item">
+          <img src="images/workshop2.jpeg" alt="Theme illustration" />
+          <h4>Collaboration</h4>
+        </div>
+        <div class="logo-item">
+          <img src="images/workshop1.jpeg" alt="Event element illustration" />
+          <h4>The best platform</h4>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2>Need help understanding your users? Let’s connect! 👋</h2>
+        <a
+          href="https://linkedin.com/in/ceciliegade"
+          target="_blank"
+          class="contact-button"
+        >
+          Contact
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Cecilie Hang Gade Portfolio</h3>
+            <p>This portfolio contains projects from work and university.</p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Follow me</h4>
+            <ul>
+              <li>
+                <a href="https://linkedin.com/in/ceciliegade" target="_blank"
+                  >LinkedIn</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- p5.js script -->
+    <script>
+      let heroCanvas;
+
+      function setup() {
+        // Hero section canvas
+        heroCanvas = createCanvas(windowWidth, 250);
+        heroCanvas.parent("hero-canvas");
+        noStroke();
+      }
+
+      function draw() {
+        background(68, 68, 255);
+        fill(100, 100, 255, 50);
+        ellipse(mouseX, mouseY, 100, 100);
+      }
+
+      function windowResized() {
+        resizeCanvas(windowWidth, 250); // Always 200px high
+      }
+    </script>
+  </body>
+</html>
