@@ -25,18 +25,30 @@
       }
 
       /* Navigation */
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        justify-content: flex-end;
-        padding: 1rem 0;
-      }
+       .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
 
-      .nav-links a {
-        text-decoration: none;
-        color: #333;
-        font-weight: bold;
-      }
+.site-title {
+  font-size: 1.2rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #333;
+}
+
+.nav-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: flex-end;
+      padding: 0rem 0;
+    }
+ .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
 
       /* Hero Section */
       .hero {
@@ -118,7 +130,10 @@
       .image-container {
         position: relative;
       }
-
+.image-container-hidden {
+        position: relative;
+        width: 23%;
+      }
       .product-item .overlay {
         position: absolute;
         top: 0;
@@ -130,6 +145,7 @@
         transition: opacity 0.2s ease;
         opacity: 1; /* Fixed value between 0-1 */
         z-index: 2;
+        pointer-events: none;
       }
 
       .product-item:hover .overlay {
@@ -149,6 +165,7 @@
         margin-top: 1rem;
       }
 
+   
       /* See More Projects Button */
       .see-more-container {
         text-align: center;
@@ -399,15 +416,34 @@
 
       /* Contact Section */
       .contact-section {
-        padding: 15rem 0;
+        padding: 5rem 0;
         text-align: center;
         background-color: #6366f1;
       }
 
       .contact-section h2 {
-        color: #222222;
-        margin-bottom: 2rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
       }
+      
+      .contact-button {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #6366f1;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 2rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-button:hover {
+  background-color: #4444ff;
+  color: #ffffff;
+}
+
+
 
       /* Footer */
       footer {
@@ -418,7 +454,7 @@
       .footer-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
+        gap: 10rem;
       }
 
       .footer-grid h3,
@@ -438,14 +474,14 @@
   </head>
   <body>
     <!-- Navigation -->
-    <div class="container">
-      <!-- <h1>CECILIE HANG GADE</h1>-->
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#contact">CV</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
+  <div class="container navbar">
+  <h1 class="site-title">CECILIE HANG GADE</h1>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="./pdf/UX.pdf" target="_blank">CV</a>
+    <a href="https://www.linkedin.com/in/ceciliegade" target="_blank">Contact</a>
+  </div>
+</div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -487,28 +523,26 @@
       <!-- Original visible projects -->
       <div class="product-grid" id="initial-projects">
         <div class="product-item">
-          <!--  <a href="project-nationalbanken.html" class="project-link"></a>-->
           <div class="image-container">
-            <img
-              src="images/project1.png"
-              alt="Nationalbanken project showing user research results"
-            />
-            <div class="overlay"></div>
-          </div>
-          <h3>Nationalbanken</h3>
-          <p>
-            User research on the employees' travel habits at work. #UserResearch
-            #Persona #Interview
-          </p>
+  <a href="landing/nationalbanken.html" target="_blank">
+    <img src="images/project1.png" alt="Nationalbanken project showing user research results" />
+  </a>
+  <div class="overlay"></div>
+</div>
+<h3>Nationalbanken</h3>
+<p>
+  User research on the employees' travel habits at work. #UserResearch
+  #Persona #Interview
+</p>
         </div>
 
         <div class="product-item">
           <div class="image-container">
-            <img src="images/Aula.png" alt="Aula redesign project interface" />
+            <img src="images/workshop2.jpeg" alt="Aula redesign project interface" />
             <div class="overlay"></div>
           </div>
-          <h3>Aula</h3>
-          <p>Redesign of Aula #UX #UI #Figma</p>
+          <h3>IT and sustainability</h3>
+          <p>How can technology help shift travel behavior from flights to rail? #UX #UI #Workshop #UserTesting</p>
         </div>
 
         <div class="product-item">
@@ -528,7 +562,7 @@
 
         <div class="product-item">
           <div class="image-container">
-            <img src="images/project1.png" alt="Datavisualization project" />
+            <img src="images/b2b over 200.png" alt="epris project" />
             <div class="overlay"></div>
           </div>
           <h3>Datavisualization</h3>
@@ -542,19 +576,17 @@
         id="more-projects"
         style="display: none"
       >
-        <div class="product-item">
-          <div class="image-container">
-            <img src="images/project1.png" alt="E-commerce project" />
+         <div class="product-item">
+          <div class="image-container-hidden">
+            <img src="images/Aula.png" alt="Aula redesign project interface" />
             <div class="overlay"></div>
           </div>
-          <h3>E-commerce Redesign</h3>
-          <p>
-            Improving user experience for an online store. #UX #UI
-            #CustomerJourney
-          </p>
+          <h3>Aula</h3>
+          <p>Redesign of Aula #UX #UI #Figma</p>
         </div>
 
-        <div class="product-item">
+
+       <!--   <div class="product-item">
           <div class="image-container">
             <img src="images/project1.png" alt="Mobile app design" />
             <div class="overlay"></div>
@@ -588,7 +620,7 @@
             Physical computing project for a museum exhibition. #Installation
             #Arduino #UserExperience
           </p>
-        </div>
+        </div>-->
       </div>
 
       <!-- See More Projects Button -->
@@ -610,18 +642,11 @@
       <div class="about-content">
         <h2>Hi! I am Cecilie Hang Gade</h2>
         <p>
-          Currently pursuing my Master’s in Digital Design, I have a background
-          in Marketing and E-commerce. I bring experience in project management
-          and stakeholder relations. As a creative thinker with a digital
-          mindset, I am passionate about understanding users and technology in
-          the digital landscape. I approach tasks with a problem-solving
-          attitude and a focus on user-centered design. With a blend of
-          technical expertise and soft skills, I aim to create impactful digital
-          solutions.
+          I’m currently pursuing a Master’s in Digital Design, with a background in Marketing and E-commerce. I have experience in project management and stakeholder relations, and I combine user-centered design with technology to create impactful digital solutions. My approach is driven by problem-solving and a deep understanding of users.
         </p>
         <div class="university-text">
           IT University of Copenhagen<br />MSc Digital Design & Interactive
-          Technology (cand.IT)
+          Technology (stud.cand.it)
         </div>
       </div>
     </section>
@@ -689,11 +714,10 @@
         </div>
       </div>
       <div class="timeline-text-content">
-        <h2>work experience</h2>
+        <h2>Work experience</h2>
 
         <div class="university-text">
-          IT University of Copenhagen<br />MSc Digital Design & Interactive
-          Technology (cand.IT)
+         #Web Development #Data-Driven Optimization #Visual Identity<br />#Digital Content Creation
         </div>
 
         <!-- 
@@ -716,11 +740,15 @@
     </section>
 
     <div class="section timeline-section reverse container">
-      <img
-        src="images/dedi.png"
-        alt="Woman working on laptop"
-        class="timeline-image"
-      />
+      
+      
+      <div class="timeline-text-content">
+    <h2>Education</h2>
+    <div class="university-text">
+      #Data-Driven Insights #User-Centered Design <br />#Testing #Digital Transformation
+      
+    </div>
+  </div>
 
       <div class="timeline-content">
         <div class="timeline-line"></div>
@@ -742,7 +770,7 @@
             <div class="date">2020-2022</div>
             <div class="title">KEA</div>
             <div class="role">PBA Digital Concepts</div>
-            <div class="description">PBA Digital Concepts</div>
+                <!--<div class="description">PBA Digital Concepts</div>-->
           </div>
         </div>
       </div>
@@ -751,17 +779,18 @@
     </div>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-      <div class="container">
-        <h2>LET'S CONNECT</h2>
-        <p>CONTACT</p>
-        <!-- Add contact information or form here -->
-        <p style="margin-top: 2rem; color: #fff">
-          Email: cecilie@example.com<br />
-          LinkedIn: linkedin.com/in/ceciliehanggade
-        </p>
-      </div>
-    </section>
+   <section id="contact" class="contact-section">
+  <div class="container">
+    <h2>LET'S CONNECT</h2>
+  
+    <!-- button with class -->
+    <a href="https://www.linkedin.com/in/ceciliegade" class="contact-button">
+      Contact
+    </a>
+  </div>
+</section>
+   
+  </div>
 
     <!-- Footer -->
     <footer>
@@ -770,8 +799,7 @@
           <div>
             <h3>Cecilie Hang Gade Portfolio</h3>
             <p>
-              This website contains projects from work and university.
-              Disclaimer: this website was coded with help from AI
+              This portfolio contains projects from work and university.
             </p>
           </div>
           <div>
@@ -780,13 +808,13 @@
               <li><a href="#">Home</a></li>
               <li><a href="#projects">Projects</a></li>
               <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="https://www.linkedin.com/in/ceciliegade">Contact</a></li>
             </ul>
           </div>
           <div>
             <h4>Follow me</h4>
             <ul>
-              <li><a href="#">LinkedIn</a></li>
+              <li><a href="https://www.linkedin.com/in/ceciliegade">LinkedIn</a></li>
             </ul>
           </div>
         </div>
@@ -848,4 +876,3 @@
     </script>
   </body>
 </html>
-
