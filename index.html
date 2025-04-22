@@ -310,6 +310,34 @@
           font-size: 2.5rem;
         }
       }
+@media (max-width: 768px) {
+  .timeline-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .timeline-text-content {
+    grid-row: 1;
+    text-align: center;
+  }
+  
+  .timeline-content {
+    grid-row: 2;
+  }
+  
+  .timeline-line {
+    left: 2rem; /* Adjusted for mobile */
+  }
+  
+  .timeline-dot {
+    left: 2rem;
+  }
+  
+  .timeline-item {
+    padding-left: 4rem;
+  }
+}
+
       /* Skills Section */
       .skills-section {
         padding: 4rem 0;
