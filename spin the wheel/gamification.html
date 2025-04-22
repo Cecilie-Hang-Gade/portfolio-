@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spinning Wheel with Sound</title>
+    <!-- Inline CSS -->
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #ffff;
+        font-family: Arial, sans-serif;
+      }
+      .wheel-container {
+        position: relative;
+        text-align: center;
+      }
+      .wheel {
+        width: 300px;
+        height: 300px;
+        transition: transform 4s ease-out;
+      }
+      /* Add triangle indicator */
+      .triangle-indicator {
+        position: absolute;
+        top: -20px;
+        left: 40%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 20px solid #333;
+        z-index: 1;
+      }
+      button {
+        margin-top: 20px;
+        padding: 5px 10px;
+        font-size: 10px;
+        cursor: pointer;
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      button:disabled {
+        background-color: #ccc;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 24px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Wheel -->
+
+    <div class="wheel-container">
+      <!-- Added triangle indicator -->
+      <div class="triangle-indicator"></div>
+      <!-- Relative path to the image -->
+      <img
+        id="wheel"
+        src="/Users/ceciliegade/Library/Mobile Documents/com~apple~CloudDocs/Portfolio2025/spin the wheel/wheel.png"
+        alt="Spinning Wheel"
+        class="wheel"
+      />
+      <button id="spinBtn">Spin the Wheel!</button>
+    </div>
+    <div id="result"></div>
+    <!-- Sound effect for spinning (add your mp4 here) -->
+    <audio id="spinSound">
+      <source
+        src="C:\Users\cehg\OneDrive - Dansk Erhverv\Dokumenter\Korrekt Spin the wheel\spin.mov"
+        type="audio/mp4"
+      />
+      Your browser does not support the audio element.
+    </audio>
+    <!-- Inline JavaScript -->
+    <script>
+      const wheel = document.getElementById("wheel");
+      const spinBtn = document.getElementById("spinBtn");
+      const result = document.getElementById("result");
+      const spinSound = document.getElementById("spinSound"); // Reference to the audio element
+      let deg = 0;
+      spinBtn.addEventListener("click", () => {
+        spinBtn.disabled = true; // Disable button during spin
+        result.textContent = ""; // Clear previous result
+        // Play the spinning sound when the button is clicked
+        spinSound.currentTime = 0; // Reset the sound to start from the beginning
+        spinSound.play(); // Start playing the sound
+        // Generate a random degree to stop at, allowing for multiple full spins + a random angle
+        const randomDegree = 1440 + Math.floor(Math.random() * 360); // 4 full spins + random position
+        deg += randomDegree; // Accumulate spins to simulate continuous spinning
+        // Apply the rotation to the wheel
+        wheel.style.transform = `rotate(${deg}deg)`;
+        // Wait for the spin to finish (4 seconds) before stopping the sound and re-enabling the button
+        setTimeout(() => {
+          spinSound.pause(); // Stop the sound when the wheel stops spinning
+          spinBtn.disabled = false; // Enable the button again
+        }, 4000); // The spin takes 4 seconds (same as CSS transition)
+      });
+    </script>
+  </body>
+</html>
