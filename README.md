@@ -5,7 +5,7 @@ Welcome to my personal portfolio website! This site showcases my work, projects,
 ## 🌐 Live Website
 
 You can view the portfolio live at:  
-[https://cecilie-hang-gade.github.io/](https://cecilie-hang-gade.github.io/)
+cecilie-hang-gade.github.io/portfolio-/
 
 ## 📁 Project Structure
 
