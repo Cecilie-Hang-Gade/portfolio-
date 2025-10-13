@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cecilie Hang Gade - Portfolio</title>
+  <title>Cecilie Hang Gade - Persona</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
   <style>
     * {
@@ -25,13 +25,25 @@
     }
 
     /* Navigation */
-  .navbar {
+ 
+  .site-title a {
+  text-decoration: none;
+  color: #333;
+}
+
+.site-title a:hover {
+  color: #4444ff; /* eller en anden farve ved hover */
+}
+    .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
 }
 
+strong, b {
+  color: #4444ff; /* your brand blue, for example */
+}
 
 .site-title {
   font-size: 1.2rem;
@@ -330,7 +342,9 @@
 <body>
   <!-- Navigation -->
  <div class="container navbar">
-  <h1 class="site-title">CECILIE HANG GADE</h1>
+  <h1 class="site-title">
+  <a href="ux-portfolio.html">CECILIE HANG GADE</a>
+</h1>
   <div class="nav-links">
     <a href="../index.html">Home</a>
     <a href="../index.html#about">About</a>
@@ -429,7 +443,52 @@ A look at how employee insights shaped personas for sustainable transport at Nat
 </section>
 
 
+  <!-- Findings Section -->
+    <section class="process-section">
+      <h2 class="section-title"> Findings</h2>
+      <p class="section-description">
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          
+          <p>
+8 out of 9 respondents <strong>travel solely to strengthen their professional networks.</strong></p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <p>
+There was consensus among respondents that a <strong>strong network</strong> benefits the execution of their work.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          
+          <p>
+Flexibility plays a major role in planning business trips, and for most respondents, <strong>it plays a greater role than sustainability.</strong> </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+         
+          <p>
+limate can certainly be on the agenda, <strong>but not at the expense of time and flexibility.</strong></p>
+        </div>
+        
+         <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">5</div>
+          
+          <p>Value sets among employees:
 
+1. The desire to contribute to climate action, but a lack of ability and knowledge to do so, and        </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">6</div>
+          <p>Value sets among employees: 2. not wanting to think about climate issues and being concerned about being hindered in their work by sustainable initiatives        </p>
+        </div>
+       
+          
+        
+      </div>
+    </section>
 
     <!-- Contact Section -->
    <section id="contact" class="contact-section">

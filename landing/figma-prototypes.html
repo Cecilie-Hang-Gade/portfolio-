@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cecilie Hang Gade - Thesis</title>
+    <title>Cecilie Hang Gade - Figma</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <style>
       * {
@@ -24,7 +24,14 @@
         margin: 0 auto;
         padding: 0 20px;
       }
+.site-title a {
+  text-decoration: none;
+  color: #333;
+}
 
+.site-title a:hover {
+  color: #4444ff; /* eller en anden farve ved hover */
+}
       /* Navigation */
       .navbar {
         display: flex;
@@ -37,14 +44,13 @@
         color: #333;
       }
 
-     .site-title a {
-  text-decoration: none;
-  color: #333;
-}
-
-.site-title a:hover {
-  color: #4444ff; /* eller en anden farve ved hover */
-}
+      .site-title {
+        font-size: 1.2rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        color: #333;
+      }
 
       .nav-links {
         display: flex;
@@ -180,13 +186,21 @@
   margin: 0 auto;
 }
       .banners-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-        margin: 0 auto;
-        max-width: 1000px;
-      }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+  gap: 2rem;
+  justify-content: center; /* centers the columns in the container */
+  align-items: center;     /* vertically centers them if heights differ */
+  margin: 0 auto;
+  max-width: 1000px;
+}
 
+.banner-item img {
+  width: 100%;   /* fills its column */
+  height: auto;
+  display: block;
+  margin: 0 auto; /* centers the image inside its column */
+}
       @media (max-width: 768px) {
         .banners-grid {
           grid-template-columns: 1fr;
@@ -347,7 +361,7 @@ list-style: none;
   <body>
     <!-- Navigation -->
     <div class="container navbar">
-       <h1 class="site-title">
+      <h1 class="site-title">
   <a href="ux-portfolio.html">CECILIE HANG GADE</a>
 </h1>
       <div class="nav-links">
@@ -364,17 +378,14 @@ list-style: none;
       <div class="container">
         <div class="hero-content">
           <h1>
-            Sustainability and IT: How can technology help shift travel behavior
-            from flights to rail?
+            Figma Prototypes
           </h1>
           <p>
-            Thesis researching how rail planner platforms like DSB Udland
-            support behavioral change through UX, beyond just persuasive
-            technology.
+            A collection of interactive design prototypes created in Figma. Each project explores different user experiences, interface layouts, and design concepts developed through iterative UX design processes.
           </p>
         </div>
       </div>
-      <div class="brand-overlay">Thesis from ITU</div>
+      <div class="brand-overlay">Figma Prototypes</div>
     </section>
 
     <!-- Video Section
@@ -393,119 +404,19 @@ list-style: none;
       </div>
     </section>  -->
 
-    <!-- Design Process Section -->
-    <section class="process-section">
-      <h2 class="section-title">Design Process</h2>
-      <p class="section-description"></p>
-
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <h4>Research</h4>
-          <p>
-            Analyzing the travel industry and rail booking platforms to set
-            context and goals
-          </p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <h4>User Involvement</h4>
-          <p>
-            Engaged users through interviews and a workshop to understand user
-            needs, pain points, travel motivations, and attitudes toward
-            sustainability.
-          </p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <h4>Design concept</h4>
-          <p>
-            Refining the concept by testing it through
-            low-fidelity wireframes and Figma prototypes.
-          </p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <h4>High fidelity prototype</h4>
-          <p>
-            Refining the prototype in Figma to streamline the booking flow and
-            enhance overall usability.
-          </p>
-        </div>
-      </div>
-    </section>
-     <!-- sketches Section -->
-
-    <section class="banners-section">
-      <h2 class="section-title">Wireframe & User flow</h2>
-      <p class="section-description">
-        A preliminary interface sketch and user flow were developed to visualize
-        the user journey. These were used in UX testing to evaluate how well the
-        design met user needs and expectations.
-      </p>
-
-      <div class="banner-item">
-        <img src="../images/sketch2.jpg" alt="sketch" />
-        <div class="banner-overlay">
-          <h4>Wireframe / User Flow</h4>
-          <p>A sketch of the interface and user flow, used to test the UX.</p>
-        </div>
-      </div>
-    </section>
-     
+   
     
-    <!-- workshop Section -->
-    <section class="logos-section">
-      <h2 class="section-title">Workshop</h2>
-      <p class="section-description">
-        Co-designing the best UX for young people (18–35) through user
-        collaboration.
-      </p>
-
-      <div class="logos-grid">
-        <div class="logo-item">
-          <img
-            src="../images/workshop4.jpeg"
-            alt="E-handelsprisen main logo"
-          />
-          <h4>The best User Journey</h4>
-        </div>
-        <div class="logo-item">
-          <img
-            src="../images/workshop3.jpeg"
-            alt="Award category illustration"
-          />
-          <h4>Building functions</h4>
-        </div>
-        <div class="logo-item">
-          <img
-            src="../images/workshop2.jpeg"
-            alt="Theme illustration"
-          />
-          <h4>Collaboration</h4>
-        </div>
-        <div class="logo-item">
-          <img
-            src="../images/workshop1.jpeg"
-            alt="Event element illustration"
-          />
-          <h4>The best platform</h4>
-        </div>
-      </div>
-    </section>
-
-    </div>
     
     <!-- final prototype Section -->
     <section class="banners-section ui-platform">
-      <h2 class="section-title">UI of the platform</h2>
+      <h2 class="section-title">LUMOS Figma Prototype</h2>
       <p class="section-description">
     The final Figma prototype. The user flow and interactions were tested with participants through Think-Aloud testing to evaluate usability and design clarity.
       </p>
 
       <div class="banners-grid">
         <div class="banner-item">
-          <img src="../images/dsb 1.png" alt="dsb figma" />
+          <img src="../images/lumos2.png" alt="dsb figma" />
           <div class="banner-overlay">
             <h4>B2B Category Banner</h4>
             <p></p>
@@ -513,7 +424,7 @@ list-style: none;
         </div>
         <div class="banner-item">
           <img
-            src="../images/dsb 2.png"
+            src="../images/lumos1.png"
             alt="dsb figma"
           />
           <div class="banner-overlay">
@@ -521,21 +432,7 @@ list-style: none;
             <p></p>
           </div>
         </div>
-        <div class="banner-item">
-          <img src="../images/DSB 3.png" alt="Dsb figma" />
-          <div class="banner-overlay">
-            <h4>Theme Banner</h4>
-            <p></p>
-          </div>
-        </div>
-        <div class="banner-item">
-          <img src="../images/dsb 4.png" alt="dsb figma" />
-          <div class="banner-overlay">
-            <h4>Event Banner</h4>
-            <p></p>
-          </div>
-        </div>
-      </div>
+       
     </section>
 
     
@@ -543,18 +440,12 @@ list-style: none;
  <section class="prototype">
   <h2 class="section-title">Figma prototype</h2>
   <p class="section-description">
-  Password: dsbthesis <br> An interactive prototype of our solution. Try the user flow:
+ <br> An interactive prototype of our solution. Try the user flow:
 
-     <ul class="liste-figma">
-  <li> Choose a date and press "Søg".</li>
-  <li>Press "Berlin".</li>
-  <li> Explore filters, low-price calendar, and departures.</li>
-      <li>  When you're done, press "Vælg hjemrejse", then "Vælg billettype".</li>
 </ul>
   </p>
   <div class="iframe-wrapper">
-    <iframe style="border: 1px solid rgba(255, 255, 255, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/7uREGh9GvdQqSkgbZxmJXj/Speciale?node-id=2-2&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A2&embed-host=share" allowfullscreen></iframe>
-  </div>
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/1I3MJdPfSvyyZeBlwr9MQ3/Lysdesign?node-id=150-271&p=f&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=131%3A107&embed-host=share" allowfullscreen></iframe></div>
 </section>
     
   

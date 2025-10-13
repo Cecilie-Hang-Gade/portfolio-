@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cecilie Hang Gade - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Navigation */
+       .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.site-title a {
+  text-decoration: none;
+  color: #333;
+}
+
+.site-title a:hover {
+  color: #4444ff; /* eller en anden farve ved hover */
+}
+.nav-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: flex-end;
+      padding: 0rem 0;
+    }
+ .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        min-height: 80vh;
+        overflow: hidden;
+      }
+
+      /* This is where the p5.js canvas will be placed - covering the whole hero */
+      #hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 9rem 0;
+        color: white; /* Changed to white to be visible on dark background */
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+        font-family: monospace;
+      }
+
+      .hero-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: #fff;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+        font-weight: bold;
+      }
+
+      .hero-button:hover {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .brand-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 8em;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.06); /* Changed to white with opacity */
+        line-height: 0.8;
+        z-index: 2;
+      }
+
+      /* Projects Section */
+      .featured-products {
+        padding: 4rem 0;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 0 2rem;
+      }
+
+      .product-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .image-container {
+        position: relative;
+      }
+.image-container-hidden {
+        position: relative;
+        width: 23%;
+      }
+      .product-item .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(19, 6, 76, 0.586);
+        border-radius: 8px;
+        transition: opacity 0.2s ease;
+        opacity: 1; /* Fixed value between 0-1 */
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .product-item:hover .overlay {
+        opacity: 0; /* Hides overlay on hover */
+      }
+
+      .product-item img {
+        display: block;
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+        z-index: 1;
+      }
+
+      .product-item h3 {
+        margin-top: 1rem;
+      }
+
+   
+      /* See More Projects Button */
+      .see-more-container {
+        text-align: center;
+        margin: 3rem 0 1rem;
+      }
+
+      .see-more-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .see-more-button:hover {
+        background-color: #4444ff;
+        color: #fff;
+      }
+
+      /*  Projects link */
+      .project-link {
+        display: block;
+        text-decoration: none;
+        color: inherit; /* Keeps text the same color instead of link blue */
+        height: 100%;
+      }
+
+      .product-item {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s;
+      }
+
+      .product-item:hover {
+        transform: translateY(-5px); /* Slight lift effect on hover */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional shadow on hover */
+      }
+      /* Sliding Banner */
+      .sliding-banner {
+        padding: 2rem 0;
+        background: #f5f5f5;
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        font-weight: 800;
+        color: #4444ff;
+      }
+
+      .banner-content {
+        display: inline-flex; /* Ændret fra inline-block */
+        white-space: nowrap;
+        animation: slide-continuous 350s linear infinite;
+        padding-right: 100%;
+        gap: 8rem;
+      }
+
+      .banner-content span {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      @keyframes slide-continuous {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      /* About Section */
+      .about-section {
+        padding: 4rem 0;
+        display: flex;
+        align-items: center;
+        gap: 8rem; /* Increased gap between image and content */
+        background-color: #f6f1dd4e; /* Light gray background */
+        min-height: 80vh; /* Full viewport height for dramatic effect */
+      }
+
+      .about-image {
+        flex: 1;
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px; /* Remove border radius */
+        object-fit: cover; /* Ensure image covers area properly */
+      }
+
+      .about-content {
+        flex: 1;
+        padding-right: 4rem; /* Add some padding on the right */
+      }
+
+      .about-content h2 {
+        font-size: 3rem; /* Larger heading */
+        font-weight: bold;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+        color: #4444ff;
+      }
+
+      .about-content p {
+        font-size: 1.2rem; /* Larger paragraph text */
+        line-height: 1.6;
+        color: #4444ff; /* Darker text color */
+        max-width: 600px; /* Limit text width for better readability */
+      }
+
+      /* Add the university text styling */
+      .university-text {
+        color: #6366f1; /* Purple/blue color for the university text */
+        margin-top: 2rem;
+        font-size: 0.9rem;
+      }
+
+      #about-canvas {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      /* Make it responsive */
+      @media (max-width: 768px) {
+        .about-section {
+          flex-direction: column;
+          gap: 3rem;
+          padding: 2rem;
+        }
+
+        .about-content {
+          padding-right: 0;
+        }
+
+        .about-content h2 {
+          font-size: 2.5rem;
+        }
+      }
+@media (max-width: 768px) {
+  .timeline-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .timeline-text-content {
+    grid-row: 1;
+    text-align: center;
+  }
+  
+  .timeline-content {
+    grid-row: 2;
+  }
+  
+  .timeline-line {
+    left: 2rem; /* Adjusted for mobile */
+  }
+  
+  .timeline-dot {
+    left: 2rem;
+  }
+  
+  .timeline-item {
+    padding-left: 4rem;
+  }
+}
+
+      /* Skills Section */
+      .skills-section {
+        padding: 4rem 0;
+        background: #f5f5f5;
+        text-align: center;
+      }
+
+      .skills-section h2 {
+        margin: 2rem 0;
+      }
+
+      /* Timeline Section */
+      .timeline-section {
+        position: relative;
+        padding: 4rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .timeline-content {
+        position: relative;
+      }
+
+      .timeline-line {
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #4444ff;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        padding-left: 3rem;
+        position: relative;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 1.05rem;
+        width: 1rem;
+        height: 1rem;
+        background-color: #4444ff;
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+
+        border-radius: 8px; /* Remove border radius */
+        object-fit: cover; /* Ensure image covers area properly */
+      }
+
+      .timeline-text-content {
+        object-fit: cover;
+        font-size: 3rem; /* Larger heading */
+        font-weight: bold;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+        color: #4444ff;
+      }
+
+      .date {
+        font-weight: bold;
+        color: #4444ff;
+        margin-bottom: 0.5rem;
+      }
+
+      .title {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+      }
+
+      .role {
+        color: #666;
+      }
+      .description {
+        color: #666;
+      }
+
+      /* Quote Section */
+      .quote-section {
+        padding: 4rem 0;
+        text-align: center;
+        background: #1e1e96;
+      }
+
+      .quote-section blockquote {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 1.5rem;
+        font-style: italic;
+        font-weight: 100;
+        color: #ffffff;
+      }
+
+      /* Contact Section */
+      .contact-section {
+        padding: 5rem 0;
+        text-align: center;
+        background-color: #6366f1;
+      }
+
+      .contact-section h2 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+      }
+      
+      .contact-button {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #6366f1;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 2rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-button:hover {
+  background-color: #4444ff;
+  color: #ffffff;
+}
+
+
+
+      /* Footer */
+      footer {
+        padding: 4rem 0;
+        background: #f5f5f5;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10rem;
+      }
+
+      .footer-grid h3,
+      .footer-grid h4 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-grid ul {
+        list-style: none;
+      }
+
+      .footer-grid a {
+        text-decoration: none;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+  <div class="container navbar">
+   <h1 class="site-title">
+  <a href="ux-portfolio.html">CECILIE HANG GADE</a>
+</h1>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="./pdf/UX.pdf" target="_blank">CV</a>
+    <a href="https://www.linkedin.com/in/ceciliegade" target="_blank">Contact</a>
+  </div>
+</div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <!-- p5.js canvas covering the entire hero section -->
+      <div id="hero-canvas"></div>
+
+      <div class="container">
+        <div class="hero-content">
+          <h1>Welcome to my portfolio! Explore my work and projects</h1>
+          <a href="#projects" class="hero-button">LEARN MORE</a>
+        </div>
+      </div>
+      <div class="brand-overlay">CECILIE HANG GADE</div>
+    </section>
+
+    <!-- Sliding Banner -->
+    <div class="sliding-banner">
+      <div class="banner-content">
+        <span>UX / UI Design</span>
+        <span>System Integration</span>
+        <span>Digital Transformation</span>
+        <span>Frontend Development</span>
+        <span>Data-Driven</span>
+        <span>Digital Prototyping</span>
+        <span>Testing</span>
+        <span>Web / App</span>
+        <span>Responsive Design</span>
+        <span>Wireframing</span>
+        <span>Usability Testing</span>
+        <span>Data Visualization</span>
+        <span>Figma</span>
+        <span>HTML / CSS / JS</span>
+        <span>Data Visualization</span>
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="featured-products">
+      <!-- Original visible projects -->
+      <div class="product-grid" id="initial-projects">
+       
+  
+   <div class="product-item">
+          <div class="image-container">
+  <a href="../landing/nationalbanken.html" target="_blank">
+    <img src="../images/project1.png" alt="Nationalbanken project showing user research results" />
+  </a>
+  <div class="overlay"></div>
+</div>
+<h3>Nationalbanken: Persona</h3>
+<p>
+  User research on the employees' travel habits at work. #UserResearch
+  #Persona #Interview #casework
+</p>
+        </div>
+  
+  <div class="product-item">
+          <div class="image-container">
+             <a href="../landing/sustainability-it.html" target="_blank">
+
+  
+            <img src="../images/workshop2.jpeg" alt="workshop co-design" />  </a>
+            <div class="overlay"></div>
+          </div>
+          <h3>IT and sustainability</h3>
+          <p>How can technology help shift travel behavior from flights to rail? #UX #UI #Workshop #UserTesting</p>
+        </div>
+
+        
+          
+
+ <div class="product-item">
+          <div class="image-container">
+             <a href="../landing/aula.html" target="_blank">
+            <img src="../images/Aula.png" alt="Aula redesign project interface" /> </a>
+            <div class="overlay"></div>
+          </div>
+          <h3>Aula</h3>
+          <p>Redesign of Aula #UX #UI #Figma</p>
+        </div>
+      
+     <div class="product-item">
+          <div class="image-container">
+           <a href="../landing/figma-prototypes.html" target="_blank">
+            <img
+              src="../images/lumos1.png"
+              alt="Figma Prototype"
+            /> </a>
+            <div class="overlay"></div>
+          </div>
+          <h3>Figma / UI</h3>
+          <p>
+            Figma Prototypes #Figma #UI #Test
+          </p>
+        </div> 
+
+      </div>
+
+      <!-- Hidden projects (initially not visible) -->
+      
+      <div
+        class="product-grid hidden-projects"
+        id="more-projects"
+        style="display: none"
+      >
+        
+
+
+    <div class="product-item">
+          <div class="image-container">
+           <a href="../landing/under-construction.html" target="_blank">
+            <img
+              src="../images/eanalyse.png"
+              alt="Dansk Erhverv CMS"
+            /> </a>
+            <div class="overlay"></div>
+          </div>
+          <h3>Dansk Erhverv: CMS</h3>
+          <p>
+            Creating Landing pagesin Episerver, best practices with the blocs of what Episerver allows. #CMS #Web #Data
+          </p>
+        </div>
+
+        <div class="product-item">
+          <div class="image-container">
+    <a href="../landing/under-construction.html" target="_blank">
+      <img src="../images/ai_figma.png" alt="Figma Prototype" />
+    </a>
+    
+    <div class="overlay"></div>
+  </div>
+  <h3> Design to Dev with AI</h3>
+  <p> How I used AI to build my prototype</p>
+</div>
+     
+
+       <div class="product-item" style="visibility: hidden;">
+  <div class="image-container">
+    <div style="height: 300px;"></div>
+    <div class="overlay"></div>
+  </div>
+  <h3>&nbsp;</h3>
+  <p>&nbsp;</p>
+</div>
+
+
+       <div class="product-item" style="visibility: hidden;">
+  <div class="image-container">
+    <div style="height: 300px;"></div>
+    <div class="overlay"></div>
+  </div>
+  <h3>&nbsp;</h3>
+  <p>&nbsp;</p>
+</div>
+       <div class="product-item" style="visibility: hidden;">
+  <div class="image-container">
+    <div style="height: 300px;"></div>
+    <div class="overlay"></div>
+  </div>
+  <h3>&nbsp;</h3>
+  <p>&nbsp;</p>
+</div>
+      </div>
+
+      <!-- See More Projects Button -->
+      <div class="see-more-container">
+        <a href="#" class="see-more-button" id="see-more-btn"
+          >SEE MORE PROJECTS</a
+        >
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="about-image">
+        <img
+          src="images/Cecilie.jpg"
+          alt="Cecilie Hang Gade professional portrait"
+        />
+      </div>
+      <div class="about-content">
+        <h2>Hi! I am Cecilie Hang Gade</h2>
+        <p>
+I hold a Master’s degree in Digital Design and Interactive Technologies and have experience in developing and optimizing digital solutions. With a strong mix of creative thinking and analytical skills, I thrive at the intersection of data, users, business, and IT—turning complex needs into user-focused solutions.        <div class="university-text">
+          IT University of Copenhagen<br />MSc Digital Design & Interactive
+          Technology (stud.cand.it)
+        </div>
+      </div>
+    </section>
+    <!-- Sliding Banner -->
+    <div class="sliding-banner">
+      <div class="banner-content">
+        <span>Testing</span>
+        <span>Web / App</span>
+        <span>Responsive Design</span>
+        <span>Wireframing</span>
+        <span>Usability Testing</span>
+        <span>Data Visualization</span>
+        <span>Figma</span>
+        <span>HTML / CSS / JS</span>
+        <span>Data Visualization</span>
+        <span>UX / UI Design</span>
+        <span>System Integration</span>
+        <span>Digital Transformation</span>
+        <span>Frontend Development</span>
+        <span>Data-Driven</span>
+        <span>Digital Prototyping</span>
+      </div>
+    </div>
+
+    <!-- Skills Section 
+    <section class="skills-section">
+      <div class="container">
+        <h2>DIGITAL DESIGN</h2>
+        <h2>MARKETING</h2>
+        <h2>VISUAL IDENTITY</h2>
+        <h2>UX DESIGN</h2>
+      </div>
+    </section> -->
+
+    <!-- Timeline Section -->
+    <div class="section timeline-section container">
+      <div class="timeline-content">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2023-2025</div>
+            <div class="title">Dansk Erhverv</div>
+            <div class="role">Student Assistant</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2023</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">Design, Marketing & E-commerce</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2021-2021</div>
+            <div class="title">Sass.dk</div>
+            <div class="role">Intern</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-text-content">
+        <h2>Work experience</h2>
+
+        <div class="university-text">
+         #Web Development #Data-Driven Optimization #Visual Identity<br />#Digital Content Creation
+        </div>
+
+        <!-- 
+      <img
+        src="images/dedi.png"
+        alt="Cecilie working on a design project"
+        class="timeline-image"
+      />-->
+      </div>
+    </div>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+      <div class="container">
+        <blockquote>
+          "Combines analytical problem-solving with a customer-focused mindset
+          to deliver effective results."
+        </blockquote>
+      </div>
+    </section>
+
+    <div class="section timeline-section reverse container">
+      
+      
+      <div class="timeline-text-content">
+    <h2>Education</h2>
+    <div class="university-text">
+      #Data-Driven Insights #User-Centered Design <br />#Testing #Digital Transformation
+      
+    </div>
+  </div>
+
+      <div class="timeline-content">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2023-2025</div>
+            <div class="title">IT-university of Copenhagen</div>
+            <div class="role">
+              Msc Digital Design & Interactive Technologies
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="date">2020-2022</div>
+            <div class="title">KEA</div>
+            <div class="role">PBA Digital Concepts</div>
+                <!--<div class="description">PBA Digital Concepts</div>-->
+          </div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+   <section id="contact" class="contact-section">
+  <div class="container">
+    <h2>LET'S CONNECT</h2>
+  
+    <!-- button with class -->
+    <a href="https://www.linkedin.com/in/ceciliegade" class="contact-button">
+      Contact
+    </a>
+  </div>
+</section>
+   
+  </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3>Cecilie Hang Gade Portfolio</h3>
+            <p>
+              This portfolio contains projects from work and university.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="https://www.linkedin.com/in/ceciliegade">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Follow me</h4>
+            <ul>
+              <li><a href="https://www.linkedin.com/in/ceciliegade">LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- p5.js script -->
+    <script>
+      let r = 100;
+      let heroCanvas;
+      let aboutCanvas;
+
+      function setup() {
+        // Hero section canvas
+        let heroSection = document.querySelector(".hero");
+        heroCanvas = createCanvas(windowWidth, heroSection.offsetHeight);
+        heroCanvas.parent("hero-canvas");
+        noStroke();
+      }
+
+      function draw() {
+        background(30, 30, 150);
+        fill(68, 68, 255);
+        ellipse(mouseX, mouseY, mouseX, mouseX);
+      }
+
+      function windowResized() {
+        let heroSection = document.querySelector(".hero");
+        resizeCanvas(windowWidth, heroSection.offsetHeight);
+      }
+
+      // Projects show more
+      document.addEventListener("DOMContentLoaded", function () {
+        const seeMoreBtn = document.getElementById("see-more-btn");
+        const moreProjects = document.getElementById("more-projects");
+
+        function showMoreProjects(e) {
+          e.preventDefault();
+          moreProjects.style.display = "grid";
+          seeMoreBtn.textContent = "SHOW LESS";
+          seeMoreBtn.removeEventListener("click", showMoreProjects);
+          seeMoreBtn.addEventListener("click", showLessProjects);
+
+          // Scroll to the newly displayed projects
+          moreProjects.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function showLessProjects(e) {
+          e.preventDefault();
+          moreProjects.style.display = "none";
+          seeMoreBtn.textContent = "SEE MORE PROJECTS";
+          seeMoreBtn.removeEventListener("click", showLessProjects);
+          seeMoreBtn.addEventListener("click", showMoreProjects);
+        }
+
+        // Set up the initial event listener
+        seeMoreBtn.addEventListener("click", showMoreProjects);
+      });
+    </script>
+  </body>
+</html>
